@@ -73,6 +73,10 @@ export class StateManager {
       throw new Error('Cell already occupied');
     }
 
+    if (player !== this.currentPlayer) {
+      throw new Error('Player does not match current player');
+    }
+
     this.board[row][col] = player;
 
     const move: Move = {
@@ -83,6 +87,7 @@ export class StateManager {
     };
 
     this.moveHistory.push(move);
+    this.switchPlayer();
   }
 
   switchPlayer(): void {
@@ -96,6 +101,7 @@ export class StateManager {
 
     const lastMove = this.moveHistory.pop()!;
     this.board[lastMove.row][lastMove.col] = 0;
+    this.switchPlayer();
 
     return lastMove;
   }
