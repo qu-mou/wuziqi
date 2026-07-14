@@ -48,7 +48,7 @@ export type GameEventType =
 // 事件数据
 export interface GameEvent {
   type: GameEventType;
-  data?: any;
+  data?: unknown;
   timestamp: number;
 }
 
