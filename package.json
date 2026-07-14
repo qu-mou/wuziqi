@@ -10,7 +10,11 @@
     "build": "tsc",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "e2e": "start-server-and-test dev http://localhost:3000 cy:run",
+    "e2e:open": "start-server-and-test dev http://localhost:3000 cy:open"
   },
   "keywords": ["gomoku", "game", "typescript", "canvas"],
   "author": "",
