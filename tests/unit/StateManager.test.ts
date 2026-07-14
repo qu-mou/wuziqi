@@ -32,11 +32,11 @@ describe('StateManager', () => {
     expect(board[7][7]).toBe(1);
   });
 
-  test('应该能够切换玩家', () => {
-    stateManager.switchPlayer();
+  test('落子后应自动切换玩家', () => {
+    expect(stateManager.getCurrentPlayer()).toBe(1);
+    stateManager.updateBoard(7, 7, 1);
     expect(stateManager.getCurrentPlayer()).toBe(2);
-
-    stateManager.switchPlayer();
+    stateManager.updateBoard(8, 8, 2);
     expect(stateManager.getCurrentPlayer()).toBe(1);
   });
 
@@ -74,6 +74,7 @@ describe('StateManager', () => {
   test('应该能够重置游戏状态', () => {
     stateManager.updateBoard(7, 7, 1);
     stateManager.updateBoard(8, 8, 2);
+    stateManager.setDifficulty('hard');
 
     stateManager.resetGame();
 
@@ -82,6 +83,7 @@ describe('StateManager', () => {
     expect(stateManager.getCurrentPlayer()).toBe(1);
     expect(stateManager.getMoveHistory().length).toBe(0);
     expect(stateManager.getGameStatus()).toBe('playing');
+    expect(stateManager.getDifficulty()).toBe('medium');
   });
 
   test('应该能够设置游戏难度', () => {
@@ -221,12 +223,22 @@ describe('StateManager', () => {
       expect(stateManager.isBoardFull()).toBe(false);
     });
 
-    test('棋盘满时应返回 true', () => {
-      // 直接设置内部状态来模拟满棋盘比较困难，
-      // 这里通过 getBoard 拿到的副本无法修改内部状态，
-      // 但我们可以验证部分填充时仍返回 false
+    test('部分填充时应返回 false', () => {
       stateManager.updateBoard(0, 0, 1);
       expect(stateManager.isBoardFull()).toBe(false);
+    });
+
+    test('棋盘满时应返回 true', () => {
+      // 循环填满 15x15 = 225 个格子，玩家交替落子
+      const size = 15;
+      let current: 1 | 2 = 1;
+      for (let r = 0; r < size; r++) {
+        for (let c = 0; c < size; c++) {
+          stateManager.updateBoard(r, c, current);
+          current = current === 1 ? 2 : 1;
+        }
+      }
+      expect(stateManager.isBoardFull()).toBe(true);
     });
   });
 });

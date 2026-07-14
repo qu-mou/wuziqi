@@ -90,7 +90,7 @@ export class StateManager {
     this.switchPlayer();
   }
 
-  switchPlayer(): void {
+  private switchPlayer(): void {
     this.currentPlayer = this.currentPlayer === 1 ? 2 : 1;
   }
 
@@ -106,11 +106,15 @@ export class StateManager {
     return lastMove;
   }
 
+  /**
+   * 重置游戏状态到初始值，包括棋盘、当前玩家、落子历史、游戏状态和难度。
+   */
   resetGame(): void {
     this.board = this.initializeBoard();
     this.currentPlayer = 1;
     this.moveHistory = [];
     this.gameStatus = 'playing';
+    this.difficulty = 'medium';
   }
 
   setDifficulty(difficulty: Difficulty): void {
