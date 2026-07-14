@@ -1,0 +1,26 @@
+{
+  "name": "gomoku-game",
+  "version": "1.0.0",
+  "description": "五子棋游戏 - TypeScript + Canvas 实现",
+  "main": "dist/main.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "dev": "tsc --watch"
+  },
+  "keywords": ["gomoku", "game", "typescript", "canvas"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "cypress": "^15.18.1",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3"
+  }
+}
