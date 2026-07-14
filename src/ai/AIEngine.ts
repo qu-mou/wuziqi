@@ -259,17 +259,17 @@ export class AIEngine {
     return this.SEARCH_DEPTHS[difficulty];
   }
 
-  private getAvailableMoves(board: CellState[][]): Array<{ row: number; col: number }> {
-    const moves: Array<{ row: number; col: number }> = [];
+  private getAvailableMoves(board: CellState[][]): Array<{ row: number; col: number; score: number }> {
+    const moves: Array<{ row: number; col: number; score: number }> = [];
     const moveSet = new Set<string>();
 
     // 优先考虑已有棋子周围的位置
     for (let row = 0; row < this.BOARD_SIZE; row++) {
       for (let col = 0; col < this.BOARD_SIZE; col++) {
         if (board[row][col] !== 0) {
-          // 检查周围8个位置
-          for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
+          // 检查周围2格范围内的位置（扩大搜索范围以捕获更多候选走法）
+          for (let i = -2; i <= 2; i++) {
+            for (let j = -2; j <= 2; j++) {
               const newRow = row + i;
               const newCol = col + j;
 
@@ -279,7 +279,9 @@ export class AIEngine {
                 const key = `${newRow},${newCol}`;
                 if (!moveSet.has(key)) {
                   moveSet.add(key);
-                  moves.push({ row: newRow, col: newCol });
+                  // 计算启发式评分用于移动排序
+                  const moveScore = this.scoreMove(board, newRow, newCol);
+                  moves.push({ row: newRow, col: newCol, score: moveScore });
                 }
               }
             }
@@ -293,17 +295,89 @@ export class AIEngine {
       for (let row = 0; row < this.BOARD_SIZE; row++) {
         for (let col = 0; col < this.BOARD_SIZE; col++) {
           if (board[row][col] === 0) {
-            moves.push({ row, col });
+            moves.push({ row, col, score: 0 });
           }
         }
       }
     }
 
+    // 按启发式评分降序排序（好的走法优先，提升Alpha-Beta剪枝效率）
+    moves.sort((a, b) => b.score - a.score);
+
     return moves;
   }
 
+  /**
+   * 评估单个候选走法的启发式评分
+   * 模拟落子后评估局部得分，分越高越值得优先搜索
+   */
+  private scoreMove(board: CellState[][], row: number, col: number): number {
+    let score = 0;
+
+    // 模拟AI落子后的攻击得分
+    board[row][col] = 2;
+    score += this.evaluatePositionScore(board, row, col, 2) * 2;
+    board[row][col] = 0;
+
+    // 模拟玩家落子后的防守得分（防守应与攻击同权重）
+    board[row][col] = 1;
+    score += this.evaluatePositionScore(board, row, col, 1) * 2;
+    board[row][col] = 0;
+
+    // 奖励靠近中心的位置
+    const center = Math.floor(this.BOARD_SIZE / 2);
+    const distFromCenter = Math.abs(row - center) + Math.abs(col - center);
+    score += Math.max(0, (this.BOARD_SIZE - distFromCenter));
+
+    return score;
+  }
+
+  /**
+   * 评估某个位置落子后对周围连线的贡献
+   */
+  private evaluatePositionScore(board: CellState[][], row: number, col: number, player: Player): number {
+    const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+    let totalScore = 0;
+
+    for (const [rowDir, colDir] of directions) {
+      let count = 0;
+      let empty = 0;
+
+      // 正向扫描
+      for (let i = 1; i < this.WIN_CONDITION; i++) {
+        const r = row + i * rowDir;
+        const c = col + i * colDir;
+        if (r >= 0 && r < this.BOARD_SIZE && c >= 0 && c < this.BOARD_SIZE) {
+          if (board[r][c] === player) count++;
+          else if (board[r][c] === 0) empty++;
+          else break;
+        } else break;
+      }
+
+      // 反向扫描
+      for (let i = 1; i < this.WIN_CONDITION; i++) {
+        const r = row - i * rowDir;
+        const c = col - i * colDir;
+        if (r >= 0 && r < this.BOARD_SIZE && c >= 0 && c < this.BOARD_SIZE) {
+          if (board[r][c] === player) count++;
+          else if (board[r][c] === 0) empty++;
+          else break;
+        } else break;
+      }
+
+      if (count >= 4) totalScore += this.SCORES.FIVE;
+      else if (count === 3 && empty >= 1) totalScore += this.SCORES.FOUR;
+      else if (count === 2 && empty >= 2) totalScore += this.SCORES.THREE;
+      else if (count === 1 && empty >= 3) totalScore += this.SCORES.TWO;
+    }
+
+    return totalScore;
+  }
+
   private isGameOver(board: CellState[][]): boolean {
-    // 检查是否有玩家获胜
+    let hasEmpty = false;
+
+    // 检查是否有玩家获胜，同时记录是否有空位
     for (let row = 0; row < this.BOARD_SIZE; row++) {
       for (let col = 0; col < this.BOARD_SIZE; col++) {
         const cell = board[row][col];
@@ -311,11 +385,14 @@ export class AIEngine {
           if (this.checkWin(board, row, col, cell as Player)) {
             return true;
           }
+        } else {
+          hasEmpty = true;
         }
       }
     }
 
-    // 检查是否平局
-    return this.checkDraw(board);
+    // 无获胜者时，直接通过是否有空位判断是否平局
+    // 避免调用 checkDraw 导致的重复全盘获胜扫描
+    return !hasEmpty;
   }
 }
