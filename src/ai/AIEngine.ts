@@ -233,6 +233,7 @@ export class AIEngine {
   }
 
   checkDraw(board: CellState[][]): boolean {
+    // 检查是否所有格子都已填满
     for (let row = 0; row < this.BOARD_SIZE; row++) {
       for (let col = 0; col < this.BOARD_SIZE; col++) {
         if (board[row][col] === 0) {
@@ -240,6 +241,17 @@ export class AIEngine {
         }
       }
     }
+
+    // 检查是否有玩家获胜（满棋盘但有获胜者不是平局）
+    for (let row = 0; row < this.BOARD_SIZE; row++) {
+      for (let col = 0; col < this.BOARD_SIZE; col++) {
+        const cell = board[row][col];
+        if (cell !== 0 && this.checkWin(board, row, col, cell as Player)) {
+          return false;
+        }
+      }
+    }
+
     return true;
   }
 

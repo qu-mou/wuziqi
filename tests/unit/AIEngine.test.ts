@@ -77,7 +77,23 @@ describe('AIEngine', () => {
 
   test('应该检测平局条件', () => {
     const board: CellState[][] = Array(15).fill(0).map(() => Array(15).fill(0));
-    // 填满棋盘但没有五子连珠
+    // 填满棋盘，使用 (i + 2*j) % 5 模式确保任意方向最多连续3个相同值
+    // mod 5 的步长在行(2)、列(1)、主对角线(3)、反对角线(4)方向上均不为0，
+    // 保证了所有方向的充分交替，不会出现五子连珠
+    for (let i = 0; i < 15; i++) {
+      for (let j = 0; j < 15; j++) {
+        board[i][j] = (i + 2 * j) % 5 < 3 ? 1 : 2;
+      }
+    }
+
+    const isDraw = aiEngine.checkDraw(board);
+
+    expect(isDraw).toBe(true);
+  });
+
+  test('满棋盘但有获胜者不应是平局', () => {
+    const board: CellState[][] = Array(15).fill(0).map(() => Array(15).fill(0));
+    // 填满棋盘，(i+j)%2 模式在主对角线上产生五子连珠
     for (let i = 0; i < 15; i++) {
       for (let j = 0; j < 15; j++) {
         board[i][j] = (i + j) % 2 === 0 ? 1 : 2;
@@ -86,7 +102,7 @@ describe('AIEngine', () => {
 
     const isDraw = aiEngine.checkDraw(board);
 
-    expect(isDraw).toBe(true);
+    expect(isDraw).toBe(false);
   });
 
   test('不同难度应该有不同的搜索深度', () => {
