@@ -5,7 +5,7 @@ import {
   GameStatus,
   Difficulty,
   GameConfig
-} from '../types/game';
+} from '../types/game.js';
 
 export class StateManager {
   private board: CellState[][];

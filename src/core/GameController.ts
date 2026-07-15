@@ -1,5 +1,5 @@
-import { StateManager } from './StateManager';
-import { AIEngine } from '../ai/AIEngine';
+import { StateManager } from './StateManager.js';
+import { AIEngine } from '../ai/AIEngine.js';
 import {
   Difficulty,
   GameStatus,
@@ -7,7 +7,7 @@ import {
   GameEventType,
   GameEventListener,
   AIMoveResult
-} from '../types/game';
+} from '../types/game.js';
 
 export class GameController {
   private stateManager: StateManager;

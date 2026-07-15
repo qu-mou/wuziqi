@@ -1,7 +1,7 @@
-import { GameController } from './core/GameController';
-import { BoardRenderer } from './rendering/BoardRenderer';
-import { InputHandler } from './input/InputHandler';
-import { Difficulty } from './types/game';
+import { GameController } from './core/GameController.js';
+import { BoardRenderer } from './rendering/BoardRenderer.js';
+import { InputHandler } from './input/InputHandler.js';
+import { Difficulty } from './types/game.js';
 
 // DOM 元素
 const canvas = document.getElementById('game-board') as HTMLCanvasElement;

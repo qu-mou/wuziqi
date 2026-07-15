@@ -1,4 +1,4 @@
-import { CellState, Difficulty, AIMoveResult, Player } from '../types/game';
+import { CellState, Difficulty, AIMoveResult, Player } from '../types/game.js';
 
 export class AIEngine {
   private readonly BOARD_SIZE = 15;

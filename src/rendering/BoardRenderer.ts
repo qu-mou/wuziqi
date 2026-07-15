@@ -1,4 +1,4 @@
-import { CellState, Player, Move } from '../types/game';
+import { CellState, Player, Move } from '../types/game.js';
 
 /**
  * 棋盘渲染器 - 中国传统水墨风格
