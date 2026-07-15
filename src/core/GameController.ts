@@ -14,17 +14,20 @@ export class GameController {
   private aiEngine: AIEngine;
   private eventListeners: Map<GameEventType, GameEventListener[]>;
   private isAIThinking: boolean;
+  private undoUsed: boolean;
 
   constructor() {
     this.stateManager = new StateManager();
     this.aiEngine = new AIEngine();
     this.eventListeners = new Map();
     this.isAIThinking = false;
+    this.undoUsed = false;
   }
 
   startGame(difficulty: Difficulty): void {
     this.stateManager.resetGame();
     this.stateManager.setDifficulty(difficulty);
+    this.undoUsed = false;
 
     this.emitEvent('gameStart', { difficulty });
   }
@@ -119,6 +122,10 @@ export class GameController {
       return { success: false, error: 'AI is thinking' };
     }
 
+    if (this.undoUsed) {
+      return { success: false, error: '已经使用过悔棋了' };
+    }
+
     if (this.stateManager.getGameStatus() !== 'playing') {
       return { success: false, error: 'Game is not in progress' };
     }
@@ -137,6 +144,8 @@ export class GameController {
 
     // 撤销玩家的落子 - removeLastMove already switches player
     this.stateManager.removeLastMove();
+
+    this.undoUsed = true;
 
     this.emitEvent('undoMove', {});
     this.emitEvent('stateChanged', this.stateManager.getBoard());
@@ -160,7 +169,8 @@ export class GameController {
       currentPlayer: this.stateManager.getCurrentPlayer(),
       moveHistory: this.stateManager.getMoveHistory(),
       gameStatus: this.stateManager.getGameStatus(),
-      difficulty: this.stateManager.getDifficulty()
+      difficulty: this.stateManager.getDifficulty(),
+      undoUsed: this.undoUsed
     };
   }
 

@@ -1,25 +1,66 @@
 import { GameController } from './core/GameController.js';
 import { BoardRenderer } from './rendering/BoardRenderer.js';
 import { InputHandler } from './input/InputHandler.js';
-import { Difficulty } from './types/game.js';
+import { Difficulty, GameStatus } from './types/game.js';
 
-// DOM 元素
+// ---------- 对局记录 ----------
+
+interface GameRecord {
+  wins: number;
+  losses: number;
+  draws: number;
+}
+
+const RECORD_STORAGE_KEY = 'gomoku-game-record';
+
+function loadRecord(): GameRecord {
+  try {
+    const stored = localStorage.getItem(RECORD_STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch {
+    // localStorage 不可用时静默处理
+  }
+  return { wins: 0, losses: 0, draws: 0 };
+}
+
+function saveRecord(record: GameRecord): void {
+  try {
+    localStorage.setItem(RECORD_STORAGE_KEY, JSON.stringify(record));
+  } catch {
+    // localStorage 不可用时静默处理
+  }
+}
+
+function updateRecordDisplay(record: GameRecord): void {
+  const winEl = document.getElementById('win-count');
+  const loseEl = document.getElementById('lose-count');
+  const drawEl = document.getElementById('draw-count');
+  if (winEl) winEl.textContent = String(record.wins);
+  if (loseEl) loseEl.textContent = String(record.losses);
+  if (drawEl) drawEl.textContent = String(record.draws);
+}
+
+// ---------- DOM 元素 ----------
+
 const canvas = document.getElementById('game-board') as HTMLCanvasElement;
 const undoBtn = document.getElementById('undo-btn') as HTMLButtonElement;
 const newGameBtn = document.getElementById('new-game-btn') as HTMLButtonElement;
+const resetRecordBtn = document.getElementById('reset-record-btn') as HTMLButtonElement;
 const statusText = document.getElementById('status-text') as HTMLElement;
 const aiStatus = document.getElementById('ai-status') as HTMLElement;
 const difficultyButtons = document.querySelectorAll(
   '[data-difficulty]'
 ) as NodeListOf<HTMLButtonElement>;
 
-// 初始化核心模块
+// ---------- 初始化核心模块 ----------
+
 const gameController = new GameController();
 const boardRenderer = new BoardRenderer(canvas);
 const inputHandler = new InputHandler(canvas);
-
-// 当前选中的难度
 let currentDifficulty: Difficulty = 'medium';
+let gameRecord = loadRecord();
 
 // ---------- 辅助函数 ----------
 
@@ -43,6 +84,21 @@ function redrawBoard(): void {
   boardRenderer.drawGameState(state.board, lastMove);
 }
 
+/** 根据游戏结束状态更新对局记录 */
+function recordGameResult(status: GameStatus): void {
+  if (status === 'black_wins') {
+    gameRecord.wins++;
+  } else if (status === 'white_wins') {
+    gameRecord.losses++;
+  } else if (status === 'draw') {
+    gameRecord.draws++;
+  } else {
+    return; // 游戏未结束，不记录
+  }
+  saveRecord(gameRecord);
+  updateRecordDisplay(gameRecord);
+}
+
 /** 根据当前游戏状态更新 UI 文本和按钮 */
 function updateUI(): void {
   const state = gameController.getGameState();
@@ -64,11 +120,12 @@ function updateUI(): void {
       break;
   }
 
-  // 悔棋按钮：仅在玩家回合、进行中、且有足够历史时可用
+  // 悔棋按钮：仅在玩家回合、进行中、有足够历史、且未使用过悔棋时可用
   undoBtn.disabled =
     state.gameStatus !== 'playing' ||
     state.currentPlayer !== 1 ||
-    state.moveHistory.length < 2;
+    state.moveHistory.length < 2 ||
+    state.undoUsed;
 }
 
 // ---------- AI 落子流程 ----------
@@ -98,6 +155,9 @@ function handleAIMove(): void {
       const currentState = gameController.getGameState();
       if (currentState.gameStatus === 'playing') {
         inputHandler.setEnabled(true);
+      } else {
+        // 游戏结束，记录结果
+        recordGameResult(currentState.gameStatus);
       }
     }
   }, 300);
@@ -117,6 +177,9 @@ function handlePlayerMove(row: number, col: number): void {
   const state = gameController.getGameState();
   if (state.gameStatus === 'playing' && state.currentPlayer === 2) {
     handleAIMove();
+  } else if (state.gameStatus !== 'playing') {
+    // 玩家直接获胜（五子连珠），记录结果
+    recordGameResult(state.gameStatus);
   }
 }
 
@@ -161,6 +224,13 @@ function setupEventListeners(): void {
       gameController.setDifficulty(difficulty);
     });
   });
+
+  // 重置对局记录
+  resetRecordBtn.addEventListener('click', () => {
+    gameRecord = { wins: 0, losses: 0, draws: 0 };
+    saveRecord(gameRecord);
+    updateRecordDisplay(gameRecord);
+  });
 }
 
 // ---------- 应用初始化 ----------
@@ -173,6 +243,7 @@ function init(): void {
 
   redrawBoard();
   updateUI();
+  updateRecordDisplay(gameRecord);
 }
 
 // 启动

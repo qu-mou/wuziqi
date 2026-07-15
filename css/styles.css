@@ -133,6 +133,62 @@ h3 {
     font-style: italic;
 }
 
+/* 对局记录 */
+.game-record {
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--secondary-color);
+}
+
+.record-stats {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    min-width: 60px;
+}
+
+.stat-item.win {
+    background-color: rgba(46, 204, 113, 0.2);
+    border: 1px solid #2ecc71;
+}
+
+.stat-item.lose {
+    background-color: rgba(231, 76, 60, 0.2);
+    border: 1px solid #e74c3c;
+}
+
+.stat-item.draw {
+    background-color: rgba(241, 196, 15, 0.2);
+    border: 1px solid #f1c40f;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--ink-color);
+    margin-bottom: 0.3rem;
+}
+
+.stat-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.btn-small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
 footer {
     margin-top: 2rem;
     text-align: center;

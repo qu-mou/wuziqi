@@ -141,6 +141,51 @@ describe('GameController', () => {
     expect(state.difficulty).toBe('hard');
   });
 
+  test('每局游戏只能悔棋一次', () => {
+    gameController.startGame('medium');
+
+    // 玩家落子
+    gameController.makeMove(7, 7);
+    // AI落子
+    gameController.getAIMove();
+
+    // 第一次悔棋应该成功
+    const firstUndo = gameController.undoMove();
+    expect(firstUndo.success).toBe(true);
+
+    // 玩家再次落子
+    gameController.makeMove(7, 7);
+    // AI落子
+    gameController.getAIMove();
+
+    // 第二次悔棋应该失败
+    const secondUndo = gameController.undoMove();
+    expect(secondUndo.success).toBe(false);
+    expect(secondUndo.error).toBe('已经使用过悔棋了');
+  });
+
+  test('新游戏后悔棋次数应该重置', () => {
+    gameController.startGame('medium');
+
+    // 玩家落子 + AI落子
+    gameController.makeMove(7, 7);
+    gameController.getAIMove();
+
+    // 使用悔棋
+    gameController.undoMove();
+
+    // 开始新游戏
+    gameController.startGame('medium');
+
+    // 玩家落子 + AI落子
+    gameController.makeMove(7, 7);
+    gameController.getAIMove();
+
+    // 悔棋应该再次可用
+    const undoResult = gameController.undoMove();
+    expect(undoResult.success).toBe(true);
+  });
+
   test('应该能够重置游戏', () => {
     gameController.startGame('medium');
 

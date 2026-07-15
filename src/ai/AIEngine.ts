@@ -7,8 +7,8 @@ export class AIEngine {
   // 搜索深度配置
   private readonly SEARCH_DEPTHS: Record<Difficulty, number> = {
     easy: 2,
-    medium: 4,
-    hard: 6
+    medium: 3,
+    hard: 4
   };
 
   // 评估分数配置
