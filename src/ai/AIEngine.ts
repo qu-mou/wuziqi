@@ -8,7 +8,7 @@ export class AIEngine {
   private readonly SEARCH_DEPTHS: Record<Difficulty, number> = {
     easy: 2,
     medium: 3,
-    hard: 4
+    hard: 5
   };
 
   // 评估分数配置
