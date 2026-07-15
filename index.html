@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五子棋 - 中国传统风格</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>五子棋</h1>
+            <p class="subtitle">水墨丹青，棋道人生</p>
+        </header>
+        
+        <main>
+            <div class="game-area">
+                <canvas id="game-board" width="600" height="600"></canvas>
+            </div>
+            
+            <div class="controls">
+                <div class="difficulty-selector">
+                    <h3>难度选择</h3>
+                    <div class="difficulty-buttons">
+                        <button class="btn" data-difficulty="easy">简单</button>
+                        <button class="btn active" data-difficulty="medium">中等</button>
+                        <button class="btn" data-difficulty="hard">困难</button>
+                    </div>
+                </div>
+                
+                <div class="game-controls">
+                    <button id="undo-btn" class="btn" disabled>悔棋</button>
+                    <button id="new-game-btn" class="btn">新游戏</button>
+                </div>
+                
+                <div class="game-status">
+                    <p id="status-text">黑棋先行</p>
+                    <p id="ai-status"></p>
+                </div>
+
+                <div class="game-record">
+                    <h3>对局记录</h3>
+                    <div class="record-stats">
+                        <div class="stat-item win">
+                            <span class="stat-label">胜</span>
+                            <span id="win-count" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item lose">
+                            <span class="stat-label">负</span>
+                            <span id="lose-count" class="stat-value">0</span>
+                        </div>
+                        <div class="stat-item draw">
+                            <span class="stat-label">平</span>
+                            <span id="draw-count" class="stat-value">0</span>
+                        </div>
+                    </div>
+                    <button id="reset-record-btn" class="btn btn-small">重置记录</button>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2026 五子棋游戏 - TypeScript + Canvas</p>
+        </footer>
+    </div>
+    
+    <script type="module" src="dist/main.js"></script>
+</body>
+</html>
