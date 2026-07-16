@@ -207,6 +207,11 @@ h3 {
     border: 1px solid #f1c40f;
 }
 
+.stat-item.steps {
+    background-color: rgba(52, 152, 219, 0.2);
+    border: 1px solid #3498db;
+}
+
 .stat-label {
     display: block;
     font-size: 0.9rem;

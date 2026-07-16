@@ -1,0 +1,104 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e5]:
+      - generic [ref=e6]:
+        - img "Logo" [ref=e7]
+        - generic [ref=e8]: Agnes创意空间
+      - generic [ref=e9]:
+        - generic [ref=e10] [cursor=pointer]: 功能介绍
+        - button "API Key" [ref=e11] [cursor=pointer]
+    - generic [ref=e14]:
+      - generic [ref=e15]:
+        - button "✨ 生成" [ref=e16] [cursor=pointer]:
+          - generic [ref=e17]: ✨
+          - text: 生成
+        - button "💬 对话" [ref=e18] [cursor=pointer]:
+          - generic [ref=e19]: 💬
+          - text: 对话
+      - textbox "输入你的创意来生成..." [ref=e21]
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - button "🎨 文生图 ▼" [ref=e25] [cursor=pointer]:
+            - text: 🎨 文生图
+            - generic [ref=e26]: ▼
+          - button "Image 2.1 Flash ▼" [ref=e28] [cursor=pointer]:
+            - text: Image 2.1 Flash
+            - generic [ref=e29]: ▼
+          - button "1:1 ▼" [ref=e31] [cursor=pointer]:
+            - text: 1:1
+            - generic [ref=e32]: ▼
+          - button "~5秒 (121帧) ▼" [ref=e34] [cursor=pointer]:
+            - text: ~5秒 (121帧)
+            - generic [ref=e35]: ▼
+          - button "1K ▼" [ref=e37] [cursor=pointer]:
+            - text: 1K
+            - generic [ref=e38]: ▼
+        - generic [ref=e39]:
+          - button "⚡ 优化提示词" [ref=e40] [cursor=pointer]
+          - button "✨ 生成" [ref=e41] [cursor=pointer]
+  - generic [ref=e42]:
+    - generic [ref=e43]:
+      - heading "为创意创作者打造的专业工作流" [level=2] [ref=e44]
+      - paragraph [ref=e45]: 纯粹的视觉追求，艺术驱动的创作体验
+    - generic [ref=e46]:
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - generic [ref=e49]: 文生图
+          - generic [ref=e50]: "01"
+        - img "文生图" [ref=e51]
+        - list [ref=e52]:
+          - listitem [ref=e53]: ✓ 输入提示词生成精美图片
+          - listitem [ref=e54]: ✓ 支持多种尺寸和比例
+          - listitem [ref=e55]: ✓ Image 2.1 Flash 模型
+          - listitem [ref=e56]: ✓ 免费使用，无限制
+        - link "了解更多 ↗ ↗" [ref=e57] [cursor=pointer]:
+          - /url: "#"
+          - text: 了解更多
+          - generic [ref=e58]: ↗
+          - text: ↗
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - generic [ref=e61]: 图生图
+          - generic [ref=e62]: "02"
+        - img "图生图" [ref=e63]
+        - list [ref=e64]:
+          - listitem [ref=e65]: ✓ 上传图片 + 提示词
+          - listitem [ref=e66]: ✓ 风格转换和编辑
+          - listitem [ref=e67]: ✓ 智能图像理解
+        - link "了解更多 ↗ ↗" [ref=e68] [cursor=pointer]:
+          - /url: "#"
+          - text: 了解更多
+          - generic [ref=e69]: ↗
+          - text: ↗
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - generic [ref=e72]: 视频生成
+          - generic [ref=e73]: "03"
+        - img "视频生成" [ref=e74]
+        - list [ref=e75]:
+          - listitem [ref=e76]: ✓ 文生视频 / 图生视频
+          - listitem [ref=e77]: ✓ 最长 18 秒
+          - listitem [ref=e78]: ✓ 多种分辨率可选
+        - link "了解更多 ↗ ↗" [ref=e79] [cursor=pointer]:
+          - /url: "#"
+          - text: 了解更多
+          - generic [ref=e80]: ↗
+          - text: ↗
+      - generic [ref=e81]: 你的创意画布。
+    - generic [ref=e84]:
+      - generic [ref=e85]:
+        - generic [ref=e86]: NEW
+        - heading "使用 Agnes AI Skill 增强你的开发体验" [level=3] [ref=e87]
+      - paragraph [ref=e88]: 在 Claude Code 中一键安装，获得完整的 API 文档、错误排查、Prompt 模板等支持
+      - generic [ref=e89]:
+        - code [ref=e90]: 请读取并安装 Agnes AI 支持 Skill：https://raw.githubusercontent.com/lj1270998580-crypto/Agnes-help-skill/main/SKILL.md
+        - button "📋 复制" [ref=e91] [cursor=pointer]
+      - generic [ref=e92]:
+        - link "📦 GitHub 仓库" [ref=e93] [cursor=pointer]:
+          - /url: https://github.com/lj1270998580-crypto/Agnes-help-skill
+        - link "🔑 获取 API Key" [ref=e94] [cursor=pointer]:
+          - /url: https://platform.agnes-ai.com
+        - link "📚 官方文档" [ref=e95] [cursor=pointer]:
+          - /url: https://agnes-ai.com/doc/overview
+  - button "Open Next.js Dev Tools" [ref=e101] [cursor=pointer]
+  - alert [ref=e105]

@@ -1,0 +1,19 @@
+- generic [ref=f5e2]:
+  - banner [ref=f5e3]:
+    - heading "五子棋" [level=1] [ref=f5e4]
+    - paragraph [ref=f5e5]: 水墨丹青，棋道人生
+  - main [ref=f5e6]:
+    - generic [ref=f5e9]:
+      - generic [ref=f5e10]:
+        - heading "难度选择" [level=3] [ref=f5e11]
+        - button "简单" [ref=f5e12] [cursor=pointer]
+        - button "中等" [ref=f5e13] [cursor=pointer]
+        - button "困难" [ref=f5e14] [cursor=pointer]
+      - generic [ref=f5e15]:
+        - button "悔棋" [disabled] [ref=f5e16]
+        - button "新游戏" [ref=f5e17] [cursor=pointer]
+      - generic [ref=f5e18]:
+        - paragraph [ref=f5e19]: 黑棋走棋
+        - paragraph
+  - contentinfo [ref=f5e20]:
+    - paragraph [ref=f5e21]: © 2026 五子棋游戏 - TypeScript + Canvas

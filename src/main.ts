@@ -42,6 +42,11 @@ function updateRecordDisplay(record: GameRecord): void {
   if (drawEl) drawEl.textContent = String(record.draws);
 }
 
+function updateStepDisplay(steps: number): void {
+  const stepEl = document.getElementById('step-count');
+  if (stepEl) stepEl.textContent = String(steps);
+}
+
 // ---------- DOM 元素 ----------
 
 const canvas = document.getElementById('game-board') as HTMLCanvasElement;
@@ -61,6 +66,7 @@ const boardRenderer = new BoardRenderer(canvas);
 const inputHandler = new InputHandler(canvas);
 let currentDifficulty: Difficulty = 'medium';
 let gameRecord = loadRecord();
+let currentSteps: number = 0;
 
 // ---------- 辅助函数 ----------
 
@@ -126,6 +132,9 @@ function updateUI(): void {
     state.currentPlayer !== 1 ||
     state.moveHistory.length < 2 ||
     state.undoUsed;
+
+  // 更新步数显示
+  updateStepDisplay(state.moveHistory.length);
 }
 
 // ---------- AI 落子流程 ----------

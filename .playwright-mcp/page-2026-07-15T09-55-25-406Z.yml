@@ -1,0 +1,33 @@
+- generic [ref=f1e2]:
+  - banner [ref=f1e3]:
+    - heading "五子棋" [level=1] [ref=f1e4]
+    - paragraph [ref=f1e5]: 水墨丹青，棋道人生
+  - main [ref=f1e6]:
+    - generic [ref=f1e9]:
+      - generic [ref=f1e10]:
+        - heading "难度选择" [level=3] [ref=f1e11]
+        - generic [ref=f1e12]:
+          - button "简单" [ref=f1e13] [cursor=pointer]
+          - button "中等" [ref=f1e14] [cursor=pointer]
+          - button "困难" [ref=f1e15] [cursor=pointer]
+      - generic [ref=f1e16]:
+        - button "悔棋" [disabled] [ref=f1e17]
+        - button "新游戏" [ref=f1e18] [cursor=pointer]
+      - generic [ref=f1e19]:
+        - paragraph [ref=f1e20]: 黑棋走棋
+        - paragraph
+      - generic [ref=f1e21]:
+        - heading "对局记录" [level=3] [ref=f1e22]
+        - generic [ref=f1e23]:
+          - generic [ref=f1e24]:
+            - generic [ref=f1e25]: 胜
+            - generic [ref=f1e26]: "0"
+          - generic [ref=f1e27]:
+            - generic [ref=f1e28]: 负
+            - generic [ref=f1e29]: "1"
+          - generic [ref=f1e30]:
+            - generic [ref=f1e31]: 平
+            - generic [ref=f1e32]: "0"
+        - button "重置记录" [ref=f1e33] [cursor=pointer]
+  - contentinfo [ref=f1e34]:
+    - paragraph [ref=f1e35]: © 2026 五子棋游戏 - TypeScript + Canvas
